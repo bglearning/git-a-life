@@ -8,8 +8,10 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.7"
 GitPython = "^3.1.18"
+typer = "^0.3.2"
 
 [tool.poetry.dev-dependencies]
+mypy = "^0.910"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
