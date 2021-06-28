@@ -18,7 +18,10 @@ class Diary:
         self.main_text = main_text
 
     def prepend_entry(self, entry_text: str) -> None:
-        self.main_text = entry_text + self.main_text
+        if self.main_text is not None:
+            self.main_text = entry_text + self.main_text
+        else:
+            self.main_text = entry_text
 
     @property
     def preamble_text(self):
