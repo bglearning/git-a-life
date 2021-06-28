@@ -4,37 +4,12 @@ from pathlib import Path
 import typer
 from git import Repo  # type: ignore
 
+from src.alife.diary import Diary, LifeEntry
+
 app = typer.Typer()
 
 DIARY_PATH = Path("README.md")
-
 REPO_PATH = Path.cwd()
-
-
-class LifeEntry:
-    def __init__(self, date: datetime.date, summary: str, description: str = None):
-        self.date = date
-        self.summary = summary
-        description = "" if description is None else description
-        self.description = description
-
-    def __str__(self):
-        return f"## {self.date.strftime('%Y-%m-%d')}\n{self.summary}\n{self.description}\n\n"
-
-
-class Diary:
-    def __init__(self, name: str = None, preamble: str = None):
-        if name is None and preamble is None:
-            raise ValueError("Both name and preamble can't be None")
-
-        self.name = name
-        self.preamble = preamble
-
-    @property
-    def preamble_text(self):
-        if self.preamble is not None:
-            return self.preamble
-        return f"# {self.name}'s Life\n\n"
 
 
 @app.command()
