@@ -4,7 +4,7 @@ from pathlib import Path
 import typer
 from git import Repo  # type: ignore
 
-from src.alife.diary import Diary, LifeEntry
+from alife.diary import Diary, LifeEntry
 
 app = typer.Typer()
 
@@ -47,14 +47,12 @@ def commit(
     if date is None:
         date = datetime.date.today()
 
-    prev_text = ""
-    if DIARY_PATH.exists():
-        prev_text = DIARY_PATH.read_text()
+    diary = Diary.from_text(DIARY_PATH.read_text())
 
     new_entry = LifeEntry(date=date, summary=summary, description=description)
-    new_text = str(new_entry) + prev_text
+    diary.prepend_entry(str(new_entry))
 
-    DIARY_PATH.write_text(new_text)
+    DIARY_PATH.write_text(diary.full_text)
 
     # Add new version of `DIARY_PATH`
     repo.git.add(DIARY_PATH)
