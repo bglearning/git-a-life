@@ -39,8 +39,8 @@ def today() -> None:
 @app.command()
 def commit(
     date: datetime.datetime = typer.Option(None, help="Date for the life update", prompt=True),
-    summary: str = typer.Option("", help="Commit Summary", prompt=True),
-    description: str = typer.Option(None, help="Description", prompt=True),
+    summary: str = typer.Option(None, help="Commit Summary", prompt=True),
+    description: str = typer.Option("", help="Description", prompt=True),
 ) -> None:
 
     repo = Repo(REPO_PATH)
