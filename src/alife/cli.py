@@ -19,7 +19,22 @@ class LifeEntry:
         self.description = description
 
     def __str__(self):
-        return f"# {self.date.strftime('%Y-%m-%d')}\n{self.summary}\n{self.description}\n\n"
+        return f"## {self.date.strftime('%Y-%m-%d')}\n{self.summary}\n{self.description}\n\n"
+
+
+class Diary:
+    def __init__(self, name: str = None, preamble: str = None):
+        if name is None and preamble is None:
+            raise ValueError("Both name and preamble can't be None")
+
+        self.name = name
+        self.preamble = preamble
+
+    @property
+    def preamble_text(self):
+        if self.preamble is not None:
+            return self.preamble
+        return f"# {self.name}'s Life\n\n"
 
 
 @app.command()
@@ -73,6 +88,16 @@ def commit(
         repo.git.commit("-m", summary, "--date", date)
     else:
         repo.git.commit("-m", summary, "-m", description, "--date", date)
+
+
+@app.command()
+def init(
+    name: str = typer.Option(None, help="Name for the life", prompt="Whose life is this?")
+) -> None:
+    Repo.init(REPO_PATH)
+
+    diary = Diary(name=name)
+    DIARY_PATH.write_text(diary.preamble_text)
 
 
 def run() -> None:
